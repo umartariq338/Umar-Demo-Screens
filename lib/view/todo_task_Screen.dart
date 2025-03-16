@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TodoUmarTaskScreen extends StatefulWidget {
   const TodoUmarTaskScreen({super.key});
@@ -11,7 +14,7 @@ class TodoUmarTaskScreen extends StatefulWidget {
 class _TodoUmarTaskScreenState extends State<TodoUmarTaskScreen> {
   List todoUmarList = [];
 
-  var Controller = TextEditingController();
+  var controller = TextEditingController();
 
   Future<void> _showUmarDialog() async {
     return showDialog<void>(
@@ -55,6 +58,34 @@ class _TodoUmarTaskScreenState extends State<TodoUmarTaskScreen> {
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //getUmarTodo();
+  }
+
+  List UmarTodoList = [];
+
+  addUmarTodo() async {
+    UmarTodoList.add(controller.text);
+    controller.clear();
+
+    var pref = await SharedPreferences.getInstance();
+    pref.setString("UmarTodo", jsonEncode(UmarTodoList));
+    setState(() {});
+  }
+
+  getUmarTodo() async {
+    var pref = await SharedPreferences.getInstance();
+    var data = pref.getString(
+      "UmarTodo",
+    );
+    if (data != null) {
+      UmarTodoList = jsonDecode(data);
+      setState(() {});
+    }
   }
 
   @override
@@ -112,12 +143,9 @@ class _TodoUmarTaskScreenState extends State<TodoUmarTaskScreen> {
                     Expanded(
                         child: TextField(
                       onSubmitted: (c) {
-                        setState(() {
-                          todoUmarList.add(Controller.text);
-                          Controller.clear();
-                        });
+                        //addUmarTodo();
                       },
-                      controller: Controller,
+                      controller: controller,
                       decoration: InputDecoration(
                           hintText: "Enter Your Text",
                           border: OutlineInputBorder()),
@@ -127,10 +155,7 @@ class _TodoUmarTaskScreenState extends State<TodoUmarTaskScreen> {
                     ),
                     MaterialButton(
                       onPressed: () {
-                        setState(() {
-                          todoUmarList.add(Controller.text);
-                          Controller.clear();
-                        });
+                        //addUmarTodo();
                       },
                       child: Icon(
                         Icons.add,

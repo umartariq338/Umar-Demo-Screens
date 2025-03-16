@@ -44,6 +44,24 @@ class _CounterScreenState extends State<CounterScreen> {
     }
   }
 
+  ClearCount() async {
+    count = 0;
+
+    var umar = await SharedPreferences.getInstance();
+    umar.setInt("count", count);
+    setState(() {});
+    Navigator.pop(context);
+  }
+
+  RemoveCount() async {
+    var umar = await SharedPreferences.getInstance();
+    var data = umar.getInt("count");
+    if (data != null) {
+      count = data;
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -80,9 +98,7 @@ class _CounterScreenState extends State<CounterScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               onPressed: () {
-                // CounterScreen.clear();
-                setState(() {});
-                Navigator.pop(context);
+                ClearCount();
               },
               child: Text(
                 "Delet",
