@@ -30,11 +30,19 @@ class SignUpScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 80),
-              Text(
-                'Instagram',
-                style: TextStyle(
-                  fontSize: 36,
-                  fontFamily: 'BalooPaaji2-Bold',
+              Container(
+                width: 320,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  '       Instagram',
+                  style: TextStyle(
+                    fontSize: 36,
+                    //fontFamily: 'BalooPaaji2-Bold',
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
